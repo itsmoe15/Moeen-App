@@ -1,0 +1,7 @@
+Flask
+google-generativeai
+google-ai-generativelanguage
+python-dotenv
+elevenlabs
+requests
+uuid

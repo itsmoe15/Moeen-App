@@ -1,0 +1,478 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  background-color: #e8e8e8;
+  height: 100vh;
+  font-family: "Rubik", sans-serif;
+}
+/* ******************************************************** */
+.container {
+  padding: 15px 0;
+  position: relative;
+}
+.main .row {
+  height: 100%;
+  gap: 20px;
+  justify-content: space-between;
+  position: relative;
+}
+/* ********************* Aside *********************************** */
+.main .row .aside {
+  display: flex;
+  align-items: start;
+  background-color: #191919;
+  border-radius: 12px;
+  box-shadow: 0px 0px 10px 2px #000;
+  overflow: hidden;
+}
+.main .row .aside .text {
+  background-color: #50c9d5;
+  margin: 10px;
+  padding: 8px;
+  border-radius: 10px;
+  text-align: left;
+}
+.main .row .aside .logo {
+  position: absolute;
+  padding: 0 45px;
+  bottom: -20px;
+}
+.main .row .aside .text p {
+  font-size: 13px;
+  font-weight: 500;
+  color: #000;
+}
+/* *********************End Aside *********************************** */
+#webcam,
+#output_canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+#output_canvas {
+  pointer-events: none;
+  border-radius: 15px;
+}
+
+/* *************************** Came ***************************** */
+
+.main .row .came {
+  background-color: #191919;
+  box-shadow: 0px 0px 10px 2px #000;
+  padding: 5px;
+  border-radius: 12px;
+  position: relative;
+  height: 90vh;
+}
+.main .row .came .setting {
+  position: absolute;
+  display: flex;
+  padding: 8px 15px;
+  z-index: 10;
+  background-color: #fff;
+  bottom: 10px;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 25px;
+}
+.main .row .came .setting .icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  background-color: #fff;
+  width: 25px;
+  height: 25px;
+  transition: all 0.4s;
+  position: relative;
+}
+.came .setting .icon::after {
+  content: "";
+  display: inline-block;
+  height: 100%;
+  width: 100%;
+  border-radius: 100px;
+  position: absolute;
+  top: 0px;
+  left: 0%;
+  z-index: -1;
+  transition: all 0.4s;
+}
+
+.came .setting .icon::after {
+  background-color: #fff;
+}
+
+.came .setting .icon:hover::after {
+  transform: scaleX(1.2) scaleY(1.2);
+  box-shadow: 0px 0px 4px 3px #000;
+  opacity: 0;
+}
+
+.came .setting .icon i {
+  color: black;
+}
+/* ***************************End Came ***************************** */
+/* ***************************Icon ***************************** */
+
+.came .setting .icon .fa-camera {
+  transition: all 0.3s;
+}
+.came .setting .icon .fa-camera:hover {
+  color: rgb(45, 254, 101) !important;
+}
+.came .setting .icon .fa-trash {
+  transition: all 0.3s;
+}
+.came .setting .icon .fa-trash:hover {
+  color: rgb(253, 73, 60) !important;
+}
+.came .setting .icon[title]:hover::before {
+  content: attr(title);
+  position: absolute;
+  bottom: 150%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: black;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 12px;
+  white-space: nowrap;
+  z-index: 1;
+  opacity: 1;
+}
+
+.came .setting .icon[title]:hover {
+  color: blue;
+}
+/* ***************************End Icon ***************************** */
+/* ***************************loading Screen ***************************** */
+
+.loader {
+  transform: rotateZ(45deg);
+  perspective: 1000px;
+  border-radius: 50%;
+  width: 150px;
+  height: 150px;
+  color: #fff;
+}
+.loader:before,
+.loader:after {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: inherit;
+  height: inherit;
+  border-radius: 50%;
+  transform: rotateX(70deg);
+  animation: 1s spin linear infinite;
+}
+.loader:after {
+  color: #ff3d00;
+  transform: rotateY(70deg);
+  animation-delay: 0.4s;
+}
+
+@keyframes rotate {
+  0% {
+    transform: translate(-50%, -50%) rotateZ(0deg);
+  }
+  100% {
+    transform: translate(-50%, -50%) rotateZ(360deg);
+  }
+}
+
+@keyframes rotateccw {
+  0% {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  100% {
+    transform: translate(-50%, -50%) rotate(-360deg);
+  }
+}
+
+@keyframes spin {
+  0%,
+  100% {
+    box-shadow: 0.2em 0px 0 0px currentcolor;
+  }
+  12% {
+    box-shadow: 0.2em 0.2em 0 0 currentcolor;
+  }
+  25% {
+    box-shadow: 0 0.2em 0 0px currentcolor;
+  }
+  37% {
+    box-shadow: -0.2em 0.2em 0 0 currentcolor;
+  }
+  50% {
+    box-shadow: -0.2em 0 0 0 currentcolor;
+  }
+  62% {
+    box-shadow: -0.2em -0.2em 0 0 currentcolor;
+  }
+  75% {
+    box-shadow: 0px -0.2em 0 0 currentcolor;
+  }
+  87% {
+    box-shadow: 0.2em -0.2em 0 0 currentcolor;
+  }
+}
+#loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #000;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+/* ***************************End loading Screen ***************************** */
+/* ***************************Setting Box ***************************** */
+
+.box-Setting {
+  background-color: #0007;
+  z-index: 20;
+  font-weight: 500;
+}
+.box-Setting .box-conent {
+  width: 35%;
+  padding: 5px;
+  background-color: #191919;
+  border-radius: 12px;
+}
+.box-Setting .box-conent .Options {
+  background-color: #50c9d5;
+  padding: 10px 5px;
+  border-radius: 12px;
+}
+/* ***************************End Setting Box ***************************** */
+/* ***************************slider ***************************** */
+/* #slider-one.custom-slider-bar,
+#slider-two.custom-slider-bar {
+  width: 50%;
+}
+.noUi-horizontal .noUi-tooltip {
+  padding: 0;
+  bottom: 105%;
+} */
+
+/* From Uiverse.io by javierBarroso */
+/* level settings 👇 */
+
+.slider {
+  /* slider */
+  --slider-width: 100%;
+  --slider-height: 15px;
+  --slider-bg: #19191952;
+  --slider-border-radius: 5px;
+  /* level */
+  --level-color: #ffffff;
+  --level-transition-duration: 5s;
+  /* icon */
+  --icon-margin: 15px;
+  --icon-color: var(--slider-bg);
+  --icon-size: 30px;
+}
+
+.slider {
+  position: relative;
+  cursor: pointer;
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: reverse;
+  -ms-flex-direction: row-reverse;
+  flex-direction: row-reverse;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.slider .volume {
+  display: inline-block;
+  vertical-align: center;
+  margin-right: var(--icon-margin);
+  color: var(--icon-color);
+  width: var(--icon-size);
+  height: auto;
+  position: absolute;
+  left: 18px;
+  pointer-events: none;
+  transition-duration: 0.5s;
+}
+
+.slider .level {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  width: var(--slider-width);
+  height: var(--slider-height);
+  background: var(--slider-bg);
+  overflow: hidden;
+  border-radius: var(--slider-border-radius);
+  -webkit-transition: height var(--level-transition-duration);
+  -o-transition: height var(--level-transition-duration);
+  transition: height var(--level-transition-duration);
+  cursor: inherit;
+  transform: rotate(0deg);
+}
+
+.slider .level::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 0px;
+  height: 0px;
+  -webkit-box-shadow: -200px 0 0 200px var(--level-color);
+  box-shadow: -100px 0 5px 100px var(--level-color),
+    -100px 0px 20px 100px var(--level-color);
+}
+.slider .level:hover ~ .volume {
+  color: var(--level-color);
+  opacity: 0.6;
+}
+
+.slider .level::-moz-range-thumb {
+  width: 0;
+  height: 0;
+  border-radius: 0;
+  border: none;
+  box-shadow: -100px 0 5px 100px var(--level-color),
+    -100px 0px 20px 100px var(--level-color);
+}
+
+/* ***************************slider ***************************** */
+
+/* ***************************Radio button ***************************** */
+.input {
+  -webkit-appearance: none;
+  /* remove default */
+  display: block;
+  margin: 5px;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  box-shadow: hsla(0, 0%, 100%, 0.15) 0 1px 1px,
+    inset hsla(0, 0%, 0%, 0.5) 0 0 0 1px;
+  background-color: hsla(0, 0%, 0%, 0.2);
+  background-image: -webkit-radial-gradient(
+    hsla(200, 100%, 90%, 1) 0%,
+    hsla(200, 100%, 70%, 1) 15%,
+    hsla(200, 100%, 60%, 0.3) 28%,
+    hsla(200, 100%, 30%, 0) 70%
+  );
+  background-repeat: no-repeat;
+  -webkit-transition: background-position 0.15s cubic-bezier(0.8, 0, 1, 1),
+    -webkit-transform 0.25s cubic-bezier(0.8, 0, 1, 1);
+  outline: none;
+}
+.input:checked {
+  -webkit-transition: background-position 0.2s 0.15s cubic-bezier(0, 0, 0.2, 1),
+    -webkit-transform 0.25s cubic-bezier(0, 0, 0.2, 1);
+}
+.input:active {
+  -webkit-transform: scale(1.5);
+  -webkit-transition: -webkit-transform 0.1s cubic-bezier(0, 0, 0.2, 1);
+}
+.form-check-input:checked {
+  background-color: #000 !important;
+}
+/* The up/down direction logic */
+.input,
+.input:active {
+  background-position: 0 24px;
+}
+.input:checked {
+  background-position: 0 0;
+}
+.input:checked ~ .input,
+.input:checked ~ .input:active {
+  background-position: 0 -24px;
+}
+
+.dropdown select.dropdown {
+  background: #191919ad;
+  color: #ccc;
+  border: none;
+  padding: 4px 3px;
+  border-radius: 8px;
+  width: 100% !important;
+}
+.Options .main-dropdown {
+  width: 40%;
+}
+/* ***************************End Radio button ***************************** */
+
+/* ***************************Media  ***************************** */
+
+@media (max-width: 768px) {
+  .aside.col-md-3 .container {
+    padding: 5px 3px;
+  }
+  .aside.col-md-3 {
+    position: absolute;
+  }
+  .aside.col-md-3 .logo {
+    display: none;
+  }
+  .aside.col-md-3 .text {
+    margin: 0 !important;
+    padding: 0 15px;
+  }
+  .aside.col-md-3 .text:nth-child(2) {
+    margin: 5px 0 !important;
+  }
+  .aside.col-md-3 .text div {
+    flex-direction: row !important;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+  .aside.col-md-3 .text div p {
+    margin: 0;
+  }
+  .box-Setting .box-conent .Options > div {
+    flex-wrap: wrap;
+    font-size: 12px;
+    justify-content: center !important;
+  }
+  .dropdown > select {
+    font-size: 12px;
+  }
+}
+@media (max-width: 575px) {
+  .container {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+  .aside.col-md-3 .text div {
+    justify-content: center;
+  }
+
+  .box-Setting .box-conent {
+    min-width: 175px;
+    padding: 5px !important;
+  }
+  .box-Setting .box-conent .Options {
+    font-size: 12px;
+    padding-right: 5px !important;
+    padding-left: 5px !important;
+  }
+  .box-Setting .box-conent .Options > div {
+    min-width: 150px;
+  }
+}
+/* ***************************End Media  ***************************** */

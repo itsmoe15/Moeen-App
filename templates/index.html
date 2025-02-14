@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Moeen | Ai Sign Language Translator</title>
+    <link rel="icon" href="{{ url_for('static', filename='img/logo-moeen.png') }}" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/nouislider/distribute/nouislider.min.css"
+    />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/all.min.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+ 
+    <!-- Primary Meta Tags -->
+    <title>Moeen | Arabic Sign Language To Speech Translator</title>
+    <meta name="title" content="Moeen | Arabic Sign Language To Speech Translator" />
+    <meta name="description" content="Moeen is an AI-powered web application designed to make a difference by translating Arabic Sign Language into speech. This innovation help individuals with hearing and speech difficulties to communicate seamlessly in their daily lives." />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://moeen.ignorelist.com/" />
+    <meta property="og:title" content="Moeen | Arabic Sign Language To Speech Translator" />
+    <meta property="og:description" content="Moeen is an AI-powered web application designed to make a difference by translating Arabic Sign Language into speech. This innovation help individuals with hearing and speech difficulties to communicate seamlessly in their daily lives." />
+    <meta property="og:image" content="https://i.postimg.cc/9Q08Sy6B/1.png" />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://moeen.ignorelist.com/" />
+    <meta property="twitter:title" content="Moeen | Arabic Sign Language To Speech Translator" />
+    <meta property="twitter:description" content="Moeen is an AI-powered web application designed to make a difference by translating Arabic Sign Language into speech. This innovation help individuals with hearing and speech difficulties to communicate seamlessly in their daily lives." />
+    <meta property="twitter:image" content="https://i.postimg.cc/9Q08Sy6B/1.png" />
+
+ 
+ 
+  </head>
+  <body>
+    <div id="loading-overlay">
+      <span class="loader"></span>
+      <p id="loading-message">Loading, please wait...</p>
+    </div>
+    <div class="container main">
+      <div class="row">
+        <div class="came col-md-8 p-0">
+          <div class="video-box">
+            <div class="d-flex align-items-center justify-content-center">
+              <video id="webcam" class="w-100 h-100" style="border-radius: 12px;" autoplay playsinline></video>
+              <canvas id="output_canvas" ></canvas>
+            </div>
+          </div>
+          <div class="setting gap-1">
+            <!-- Camera Button -->
+            <button id="webcamButton" class="icon mx-1 btn" title="Camera" style="background: none; border: none;">
+              <i class="fa-solid fa-camera"></i>
+            </button>
+            <!-- Setting Button -->
+            <button id="settingMenu" class="icon mx-1 btn" title="Setting" style="background: none; border: none;">
+              <i class="fa-solid fa-gear"></i>
+            </button>
+            <!-- Clear Button -->
+            <button id="clearButton" class="icon mx-1 btn" title="Clear" style="background: none; border: none;">
+              <i class="fa-solid fa-trash"></i>
+            </button>
+            <!-- <select id="cameraSelect" class="icon mx-1 btn" title="Select Camera" style="background: none; border: none;"></select> -->
+          </div>
+        </div>
+        <div class="aside col-md-3 p-0">
+          <div class="container h-100">
+            <div class="text">
+              <div class="d-flex flex-column align-items-center">
+                <p id="latest-gesture">Latest gesture will appear here</p>
+              </div>
+            </div>
+            <div class="text">
+              <div class="d-flex flex-column align-items-center">
+                <p id="accumulated-gestures">Accumulated gestures will appear here</p>
+              </div>
+            </div>
+            <div class="text mt-2">
+              <div class="d-flex flex-column align-items-center">
+                <p id="predicted-word">Predicted word will appear here</p>
+              </div>
+            </div>
+
+            <div class="text mt-2" style="display:none;">
+              <div class="d-flex flex-column align-items-center">
+                <p id="confidence-warning" class="hidden">Gesture detected with low confidence. Please try again.</p>
+              </div>
+            </div>
+
+
+            <div class="logo mt-2">
+              <img class="w-100" src="{{ url_for('static', filename='img/logo.png') }}" alt="" />
+            </div>
+          </div>
+      </div>
+      </div>
+  </div>
+    
+  <!-- settings box -->
+    
+  <div
+  class="box-Setting position-absolute start-0 top-0 w-100 h-100 d-flex justify-content-center align-items-center d-none"
+>
+  <div class="box-conent p-3 shadow-lg">
+    <header
+      class="box-header w-100 d-flex justify-content-end align-items-center mb-4"
+    >
+      <button class="btn border-0" id="closeBtn">
+        <i class="fa-solid fa-xmark close fs-3 text-white"></i>
+      </button>
+    </header>
+    <div class="Options d-flex w-100 flex-column py-4 px-3">
+      <div
+        class="d-flex justify-content-between align-items-center mb-3 Speed"
+      >
+        <p class="m-2">Gesture Pickup Speed</p>
+        <label class="slider ms-2">
+          <input
+            name="radio"
+            type="range"
+            class="level"
+            max="100"
+            min="0"
+            value="80"
+            id="speedSlider"
+          />
+          <span class="me-1" id="speedValue">80</span>
+        </label>
+      </div>
+      <div
+        class="d-flex justify-content-between align-items-center mb-3 Accuracy"
+      >
+        <p class="m-2">Accuracy Threshold</p>
+        <label class="slider ms-2">
+          <input
+            name="radio"  
+            type="range"
+            class="level"
+            max="100"
+            min="0"
+            value="30"
+            id="accuracySlider"
+          />
+          <span class="me-1" id="accuracyValue">30</span>
+        </label>
+      </div>
+      <div
+        class="d-flex justify-content-between align-items-center Sound-Type"
+      >
+        <p class="m-2">Audio type</p>
+        <div
+          class="d-flex flex-column align-items-start justify-content-center"
+        >
+          <div class="d-flex align-items-center ps-2 me-3">
+            <input
+              class="form-check-input input"
+              type="radio"
+              name="voiceType"
+              id="maleVoice"
+              value="male"
+              checked
+            />
+            <label class="form-check-label" for="maleVoice">
+              Male Voice
+            </label>
+          </div>
+          <div class="d-flex align-items-center ps-2">
+            <input
+              class="form-check-input input"
+              type="radio"
+              name="voiceType"
+              id="femaleVoice"
+              value="female"
+            />
+            <label class="form-check-label" for="femaleVoice">
+              Female Voice
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="d-flex justify-content-between align-items-center mt-2">
+        <p class="m-2">Camera</p>
+        <div class="d-flex flex-column align-items-start justify-content-center main-dropdown">
+
+          <div class="dropdown">
+
+            <select id="cameraSelect" class="dropdown" title="Select Camera" ></select>
+          </div>
+         
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    <script type="module" src="{{ url_for('static', filename='js/script.js') }}"></script>
+    <script type="module" src="{{ url_for('static', filename='js/loading.js') }}"></script>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/nouislider/distribute/nouislider.min.js"></script>
+    <script type="module" src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"></script>
+
+  </body>
+</html>
