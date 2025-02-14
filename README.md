@@ -6,7 +6,7 @@
 
 Moeen ( مُعين ) is an AI powered web application that can translate arabic sign language into speech, This project, developed as part of the **GDG DevFest24 Hackathon**, aims to bridge communication gaps for the deaf and hard-of-hearing community by converting sign language gestures into text and speech in real time. The application uses machine learning models for gesture recognition and integrates with text-to-speech services to provide an interactive experience.
 
-For gestures refrer to this [Image](static\img\refrence.jpg)
+For gestures refrer to this [Image](https://github.com/itsmoe15/Moeen-App/blob/main/static/img/refrence.jpg)
 
 ## 🚀 Features
 
